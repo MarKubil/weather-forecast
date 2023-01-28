@@ -16,7 +16,7 @@ const appendButton = item => {
 
 
 let storages = localStorage;
-let historyListItems = [];
+
 function storage() {
 
     for (let i = 0; i < localStorage.length; i++) {
@@ -32,9 +32,9 @@ function storage() {
 
 
 
-// TEST adds an items to history
-const test = ["Vilnius", "London", "Peterborough"];
-test.forEach(item => {appendButton(item)});
+// // TEST adds an items to history
+// const test = ["Vilnius", "London", "Peterborough"];
+// test.forEach(item => {appendButton(item)});
 
 // Function to shows weather when clicked on history button.
 historyList.on("click", ".historyButton", item => {
@@ -45,10 +45,16 @@ historyList.on("click", ".historyButton", item => {
 
 
 
+let historyListItems = [];
+for (let i = 0; i < localStorage.length; i++) {
 
+    if (localStorage.key(i) === "weatherIndex-" + i) {
+        historyListItems.push(localStorage.key(i))
+    };
+};
+console.log(historyListItems)
 const checker = item => {
-    $("#today").empty();
-    $("#forecast").empty();
+
     const request = openWeatherGeo(item);
 
     // if input value have not found in openWeather it alerts a user.
@@ -57,6 +63,13 @@ const checker = item => {
         searchInput.val("")
         return;
     } else {
+        // Empty Today forecast and 5 day forecast divs.
+        $("#today").empty();
+        $("#forecast").empty();
+
+
+
+        localStorage.setItem("weatherIndex-" + historyListItems.length, searchInput.val())
         appendButton(searchInput.val());
         searchInput.val("")
     };
@@ -72,7 +85,7 @@ searchButton.on("click", event => {
 // Function to get lon nad lat.
 const openWeatherGeo = item => {
 
-    const quaryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + item + "&appid=" + apiKey;
+    const quaryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + item + "&appid=" + apiKey;
     var array = [];
     $.ajax({
         url: quaryUrl,
@@ -91,8 +104,8 @@ const openWeatherGeo = item => {
 
 // Function to get an object from openweather from retrieved lon and lat.
 const openWeather = (lon, lat) => {
-    const quaryUrl = "https://api.openweathermap.org/data/2.5/forecast?lat="+ lat +"&lon="+ lon +"&appid=" + apiKey;
-    
+    const quaryUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
+
     $.ajax({
         url: quaryUrl,
         metgod: "get"
@@ -106,9 +119,9 @@ const openWeather = (lon, lat) => {
 const showUp = response => {
     // Variable for todays icon URL
     let todaysIcon = "http://openweathermap.org/img/wn/" + response.list[0].weather[0].icon + "@2x.png";
-    $("#today").append($("<h1>").text(response.city.name +" "+ currentTime).append(appendIcon.attr("src", todaysIcon)));
+    $("#today").append($("<h1>").text(response.city.name + " " + currentTime).append(appendIcon.attr("src", todaysIcon)));
     // Todays Temperature in Celcius.
-    const tempToC = Math.floor(response.list[0].main.temp -  273.15);
+    const tempToC = Math.floor(response.list[0].main.temp - 273.15);
     $("#today").append($("<p>").text("Temp: " + tempToC + " ℃"));
     // Todays wind
     $("#today").append($("<p>").text("Wind: " + response.list[0].wind.speed + " KPH"));
@@ -121,7 +134,7 @@ const showUp = response => {
     const loopItems = [response.list[8], response.list[16], response.list[24], response.list[32], response.list[39]];
     // Loop throw 5 day forecast and put in the divs.
     for (let i = 0; i < loopItems.length; i++) {
-        const tempToC = Math.floor(loopItems[i].main.temp -  273.15);
+        const tempToC = Math.floor(loopItems[i].main.temp - 273.15);
         let icon = "http://openweathermap.org/img/wn/" + loopItems[i].weather[0].icon + "@2x.png";
         // Variable to save a day + 1
         const day = moment().add(i + 1, 'days').format('(DD/M/YYYY)');
@@ -137,6 +150,6 @@ const showUp = response => {
     };
 };
 
-// Puts first child of history div and shows weather forecast
- openWeatherGeo($("#history button:first").text());
+// // Puts first child of history div and shows weather forecast
+//  openWeatherGeo($("#history button:first").text());
 
