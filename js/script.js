@@ -15,27 +15,6 @@ const appendButton = item => {
 };
 
 
-let storages = localStorage;
-
-function storage() {
-
-    for (let i = 0; i < localStorage.length; i++) {
-        historyListItems.push(localStorage.getItem(i));
-    }
-    console.log(historyListItems);
-};
-
-// console.log(localStorage)
-//  for (var i=1; i <= localStorage.length; i++)  {
-//     console.log(localStorage.getItem(i))
-// }
-
-
-
-// // TEST adds an items to history
-// const test = ["Vilnius", "London", "Peterborough"];
-// test.forEach(item => {appendButton(item)});
-
 // Function to shows weather when clicked on history button.
 historyList.on("click", ".historyButton", item => {
     const targeted = $(item.target);
@@ -46,13 +25,22 @@ historyList.on("click", ".historyButton", item => {
 
 
 let historyListItems = [];
-for (let i = 0; i < localStorage.length; i++) {
 
-    if (localStorage.key(i) === "weatherIndex-" + i) {
-        historyListItems.push(localStorage.key(i))
+const getLocalStorage = () => {
+    for (let i = 0; i < localStorage.length; i++) {
+        console.log(localStorage.key(i))
+         historyListItems.push(localStorage.getItem(localStorage.key(i)))
     };
-};
-console.log(historyListItems)
+
+    console.log(historyListItems)
+    console.log(localStorage)
+    historyListItems.forEach(item => {appendButton(item)});
+}
+
+
+
+
+
 const checker = item => {
 
     const request = openWeatherGeo(item);
@@ -66,11 +54,12 @@ const checker = item => {
         // Empty Today forecast and 5 day forecast divs.
         $("#today").empty();
         $("#forecast").empty();
-
-
-
-        localStorage.setItem("weatherIndex-" + historyListItems.length, searchInput.val())
-        appendButton(searchInput.val());
+        // checks if the input is not existing value of history list and
+        if (!historyListItems.includes(searchInput.val())) {
+            localStorage.setItem("weatherIndex-" + historyListItems.length, searchInput.val())
+            appendButton(searchInput.val());
+        }
+        
         searchInput.val("")
     };
 };
@@ -110,7 +99,6 @@ const openWeather = (lon, lat) => {
         url: quaryUrl,
         metgod: "get"
     }).then(response => {
-        console.log(response);
         showUp(response);
     });
 };
@@ -150,6 +138,7 @@ const showUp = response => {
     };
 };
 
+getLocalStorage();
 // // Puts first child of history div and shows weather forecast
-//  openWeatherGeo($("#history button:first").text());
+openWeatherGeo($("#history button:first").text());
 
