@@ -1,6 +1,15 @@
 :root {
- --background-color:  linear-gradient(90deg, rgba(164,170,247,1) 0%, rgba(171,212,247,1) 58%, rgba(164,170,247,1) 100%);
+    --background-color: linear-gradient(90deg, rgba(164, 170, 247, 1) 0%, rgba(171, 212, 247, 1) 58%, rgba(164, 170, 247, 1) 100%);
 }
+
+#clearHistory {
+    float: left;
+    background-color: red;
+    color: black;
+    font-weight: bold;
+    display: none;
+}
+
 body {
     background: var(--background-color);
 }
@@ -34,11 +43,12 @@ body {
     padding: 5px;
     border: 1px solid black;
 }
+
 #forecast div:hover {
-
     background-color: #abebf7;
-
+    font-weight: bold
 }
+
 #forecast img {
     height: 4em;
     margin-top: -1em;

@@ -5,6 +5,7 @@ const apiKey = "6024d10a1c0b002970684a9ec11ff307"
 const currentTime = moment().format('(DD/M/YYYY)');
 const appendIcon = $("<img>");
 const historyButton = $(".historyButton");
+const clearHistory = $("#clearHistory");
 
 
 // Function to append button to history list.
@@ -53,6 +54,7 @@ const checker = item => {
 searchButton.on("click", event => {
     event.preventDefault();
     checker(searchInput.val().toUpperCase())
+    checksHistoryItems()
 });
 
 // Function to get lon nad lat.
@@ -77,7 +79,6 @@ const openWeatherGeo = item => {
 // Function to get an object from openweather from retrieved lon and lat.
 const openWeather = (lon, lat) => {
     const quaryUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
-
     $.ajax({
         url: quaryUrl,
         metgod: "get"
@@ -99,7 +100,8 @@ const showUp = response => {
     $("#today").append($("<p>").text("Wind: " + response.list[0].wind.speed + " KPH"));
     // Todays Humidity
     $("#today").append($("<p>").text("Humidity: " + response.list[0].main.humidity + "%"));
-
+    // TEXT
+    $("#forecast").append($("<h2>").text("Five days forecast :").attr("style", "width: 100%"));
     // 5 day forecast
     const loopItems = [response.list[8], response.list[16], response.list[24], response.list[32], response.list[39]];
     // Loop throw 5 day forecast and put in the divs.
@@ -121,6 +123,21 @@ const showUp = response => {
 };
 
 // Checks if there is history button if there is shows last one.
-if ($(".historyButton").length > 0){
+if ($(".historyButton").length > 0) {
     openWeatherGeo($("#history button:first").text());
 }
+
+// Clears a history on click.
+clearHistory.on("click", function () {
+    localStorage.clear();
+    location.reload();
+})
+
+// Function if history list more then 5 elements clear history button shows up.
+function checksHistoryItems() {
+    if (history.length >= 5) {
+        clearHistory.attr("style", "display: block")
+    }
+};
+
+checksHistoryItems()
