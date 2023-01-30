@@ -14,7 +14,6 @@ const appendButton = item => {
     historyList.prepend(createButton.addClass("btn-outline-dark btn-sm historyButton").attr("data-name", item));
 };
 
-
 // Function to shows weather when clicked on history button.
 historyList.on("click", ".historyButton", item => {
     const targeted = $(item.target);
@@ -22,24 +21,10 @@ historyList.on("click", ".historyButton", item => {
     checker(attribute);
 });
 
-
-
-let historyListItems = [];
-
-const getLocalStorage = () => {
-    for (let i = 0; i < localStorage.length; i++) {
-        console.log(localStorage.key(i))
-         historyListItems.push(localStorage.getItem(localStorage.key(i)))
-    };
-
-    console.log(historyListItems)
-    console.log(localStorage)
-    historyListItems.forEach(item => {appendButton(item)});
-}
-
-
-
-
+// Variable to save all searched history inputs from localStorage.
+let history = JSON.parse(localStorage.getItem("Search-History")) || [];
+// Append button for every history item.
+history.forEach(appendButton)
 
 const checker = item => {
 
@@ -54,26 +39,28 @@ const checker = item => {
         // Empty Today forecast and 5 day forecast divs.
         $("#today").empty();
         $("#forecast").empty();
-        // checks if the input is not existing value of history list and
-        if (!historyListItems.includes(searchInput.val())) {
-            localStorage.setItem("weatherIndex-" + historyListItems.length, searchInput.val())
-            appendButton(searchInput.val());
-        }
-        
+
+        // Checks if the value allready existing.
+        if (!history.includes(item) || ""){
+            history.push(searchInput.val().toUpperCase());
+            //  Pushes history array to localStorage.
+            localStorage.setItem('Search-History', JSON.stringify(history));
+            appendButton(searchInput.val().toUpperCase());
+        };
+       
+        // Sets search input to empty string.
         searchInput.val("")
     };
 };
 
-
 // onClick function to send input to append button function.
 searchButton.on("click", event => {
     event.preventDefault();
-    checker(searchInput.val())
+    checker(searchInput.val().toUpperCase())
 });
 
 // Function to get lon nad lat.
 const openWeatherGeo = item => {
-
     const quaryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + item + "&appid=" + apiKey;
     var array = [];
     $.ajax({
@@ -106,6 +93,7 @@ const openWeather = (lon, lat) => {
 // Function witch put in to HTML recieved data from openWeather.
 const showUp = response => {
     // Variable for todays icon URL
+    $("#today").attr("style","margin: 0; padding: 10px; border: 1px solid black;")
     let todaysIcon = "http://openweathermap.org/img/wn/" + response.list[0].weather[0].icon + "@2x.png";
     $("#today").append($("<h1>").text(response.city.name + " " + currentTime).append(appendIcon.attr("src", todaysIcon)));
     // Todays Temperature in Celcius.
@@ -132,13 +120,10 @@ const showUp = response => {
         addDiv.append($("<h5>").text(day));
         addDiv.append($("<img>").attr("src", icon));
         addDiv.append($("<p>").text("Temp: " + tempToC + " ℃"));
-        addDiv.append($("<p>").text("Wind: " + loopItems[i].wind.speed + " KPH"));
+        addDiv.append($("<p>").text("Wind: " + loopItems[i].wind.speed.toFixed() + " KPH"));
         addDiv.append($("<p>").text("Humidity: " + loopItems[i].main.humidity + "%"));
         $("#forecast").append(addDiv.addClass("w-20 col-lg-2 col-sm"));
     };
 };
 
-getLocalStorage();
-// // Puts first child of history div and shows weather forecast
-openWeatherGeo($("#history button:first").text());
 
