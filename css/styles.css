@@ -4,6 +4,7 @@
 
 body {
     background: var(--background-color);
+    color: black;
 }
 
 .weather-header {
@@ -12,7 +13,9 @@ body {
 }
 
 .weather-header h1 {
+    font-weight: bold;
     color: black;
+    text-shadow: 0px 0px 5px white, 0px 0px 10px white, 0px 0px 20px white;
 }
 
 #search-input {
@@ -48,11 +51,11 @@ body {
 #forecast div {
     margin: auto;
     padding: 5px;
-    border: 1px solid black;
+    border: 2px solid black;
 }
 
 #forecast div:hover {
-    background-color: #abebf7;
+    background: var(--background-color);
     font-weight: bold
 }
 

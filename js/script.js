@@ -2,7 +2,7 @@ const searchInput = $("#search-input");
 const searchButton = $("#search-button");
 const historyList = $("#history");
 const apiKey = "6024d10a1c0b002970684a9ec11ff307"
-const currentTime = moment().format('(DD/M/YYYY)');
+const currentDate = moment().format('(DD/M/YYYY)');
 const appendIcon = $("<img>");
 const historyButton = $(".historyButton");
 const clearHistory = $("#clearHistory");
@@ -90,9 +90,9 @@ const openWeather = (lon, lat) => {
 // Function witch put in to HTML recieved data from openWeather.
 const showUp = response => {
     // Variable for todays icon URL
-    $("#today").attr("style", "margin: 0; padding: 10px; border: 1px solid black;")
+    $("#today").attr("style", "margin: 0; padding: 10px; border: 2px solid black;")
     let todaysIcon = "http://openweathermap.org/img/wn/" + response.list[0].weather[0].icon + "@2x.png";
-    $("#today").append($("<h1>").text(response.city.name + " " + currentTime).append(appendIcon.attr("src", todaysIcon)));
+    $("#today").append($("<h1>").text(response.city.name + " " + currentDate).append(appendIcon.attr("src", todaysIcon)));
     // Todays Temperature in Celcius.
     const tempToC = Math.floor(response.list[0].main.temp - 273.15);
     $("#today").append($("<p>").text("Temp: " + tempToC + " ℃"));
@@ -110,10 +110,12 @@ const showUp = response => {
         let icon = "http://openweathermap.org/img/wn/" + loopItems[i].weather[0].icon + "@2x.png";
         // Variable to save a day + 1
         const day = moment().add(i + 1, 'days').format('(DD/M/YYYY)');
+        const dayWord = moment().add(i + 1, 'days').format('dddd');
         // Variable creates div
         const addDiv = $("<div>")
         // Added elements to divs.
         addDiv.append($("<h5>").text(day));
+        addDiv.append($("<p>").text(dayWord));
         addDiv.append($("<img>").attr("src", icon));
         addDiv.append($("<p>").text("Temp: " + tempToC + " ℃"));
         addDiv.append($("<p>").text("Wind: " + loopItems[i].wind.speed.toFixed() + " KPH"));
