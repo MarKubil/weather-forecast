@@ -1,9 +1,23 @@
+:root {
+ --background-color:  linear-gradient(90deg, rgba(164,170,247,1) 0%, rgba(171,212,247,1) 58%, rgba(164,170,247,1) 100%);
+}
+body {
+    background: var(--background-color);
+}
+
+.weather-header {
+    background: var(--background-color);
+    border-bottom: 3px solid black;
+}
+
+.weather-header h1 {
+    color: black;
+}
+
 #search-input {
     padding: 3px;
     margin-bottom: 3px;
 }
-
-
 
 #today img {
     height: 2em;
@@ -17,14 +31,19 @@
 
 #forecast div {
     margin: auto;
-    background-color: yellow;
     padding: 5px;
     border: 1px solid black;
+}
+#forecast div:hover {
+
+    background-color: #abebf7;
 
 }
-
 #forecast img {
     height: 4em;
     margin-top: -1em;
 }
 
+#forecast {
+    margin: 0px;
+}

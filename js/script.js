@@ -27,9 +27,7 @@ let history = JSON.parse(localStorage.getItem("Search-History")) || [];
 history.forEach(appendButton)
 
 const checker = item => {
-
     const request = openWeatherGeo(item);
-
     // if input value have not found in openWeather it alerts a user.
     if (request.length === 0) {
         alert("Check your input! City not found")
@@ -39,15 +37,13 @@ const checker = item => {
         // Empty Today forecast and 5 day forecast divs.
         $("#today").empty();
         $("#forecast").empty();
-
-        // Checks if the value allready existing.
-        if (!history.includes(item) || ""){
+        // Checks if the value already existing.
+        if (!history.includes(item) || "") {
             history.push(searchInput.val().toUpperCase());
             //  Pushes history array to localStorage.
             localStorage.setItem('Search-History', JSON.stringify(history));
             appendButton(searchInput.val().toUpperCase());
         };
-       
         // Sets search input to empty string.
         searchInput.val("")
     };
@@ -93,7 +89,7 @@ const openWeather = (lon, lat) => {
 // Function witch put in to HTML recieved data from openWeather.
 const showUp = response => {
     // Variable for todays icon URL
-    $("#today").attr("style","margin: 0; padding: 10px; border: 1px solid black;")
+    $("#today").attr("style", "margin: 0; padding: 10px; border: 1px solid black;")
     let todaysIcon = "http://openweathermap.org/img/wn/" + response.list[0].weather[0].icon + "@2x.png";
     $("#today").append($("<h1>").text(response.city.name + " " + currentTime).append(appendIcon.attr("src", todaysIcon)));
     // Todays Temperature in Celcius.
@@ -103,8 +99,6 @@ const showUp = response => {
     $("#today").append($("<p>").text("Wind: " + response.list[0].wind.speed + " KPH"));
     // Todays Humidity
     $("#today").append($("<p>").text("Humidity: " + response.list[0].main.humidity + "%"));
-
-
 
     // 5 day forecast
     const loopItems = [response.list[8], response.list[16], response.list[24], response.list[32], response.list[39]];
@@ -126,4 +120,7 @@ const showUp = response => {
     };
 };
 
-
+// Checks if there is history button if there is shows last one.
+if ($(".historyButton").length > 0){
+    openWeatherGeo($("#history button:first").text());
+}
