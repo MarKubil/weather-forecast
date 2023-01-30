@@ -2,14 +2,6 @@
     --background-color: linear-gradient(90deg, rgba(164, 170, 247, 1) 0%, rgba(171, 212, 247, 1) 58%, rgba(164, 170, 247, 1) 100%);
 }
 
-#clearHistory {
-    float: left;
-    background-color: red;
-    color: black;
-    font-weight: bold;
-    display: none;
-}
-
 body {
     background: var(--background-color);
 }
@@ -26,6 +18,21 @@ body {
 #search-input {
     padding: 3px;
     margin-bottom: 3px;
+}
+
+#clearHistory {
+    font-weight: bold;
+    display: none;
+    color: red;
+}
+
+#clearHistory:hover {
+    background-color: red;
+    color: black;
+}
+
+.historyButton {
+    margin-bottom: 5px;
 }
 
 #today img {

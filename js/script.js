@@ -12,7 +12,7 @@ const clearHistory = $("#clearHistory");
 const appendButton = item => {
     const createButton = $("<button>");
     createButton.text(item);
-    historyList.prepend(createButton.addClass("btn-outline-dark btn-sm historyButton").attr("data-name", item));
+    historyList.prepend(createButton.addClass("btn btn-secondary btn-sm historyButton").attr("data-name", item));
 };
 
 // Function to shows weather when clicked on history button.
@@ -136,8 +136,8 @@ clearHistory.on("click", function () {
 // Function if history list more then 5 elements clear history button shows up.
 function checksHistoryItems() {
     if (history.length >= 5) {
-        clearHistory.attr("style", "display: block")
-    }
+        clearHistory.attr("style", "display: block").addClass("btn btn-info btn-sm")
+    };
 };
 
 checksHistoryItems()
