@@ -7,7 +7,7 @@ In this app I was using third party API (OpenWeather) to get weeks weather forec
 
 Link to live page: [Click here](https://markubil.github.io/weather-forecast/)
 
-![The Horiseon webpage.](assets/images/01-html-css-git-challenge-demo.png)
+![Forecast-app](./img/img.png)
 
 ## Installation
 
