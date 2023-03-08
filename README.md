@@ -2,7 +2,7 @@
 
 ## Description
 
-In this app I was using third party API (OpenWeather) to get weeks weather forecast for user inputed city.
+In this app I was using third party API (OpenWeather) to get weeks weather forecast for user chosen city.
 
 
 Link to live page: [Click here](https://markubil.github.io/weather-forecast/)
